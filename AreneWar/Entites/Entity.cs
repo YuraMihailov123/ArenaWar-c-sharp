@@ -50,17 +50,17 @@ namespace AreneWar.Entites
 
         public void PlayAnimation(Graphics g)
         {
-            g.DrawImage(spriteSheet, new Rectangle(new Point(posX - flip*size/2, posY), new Size(flip*size, size)),32*currentFrame, 32*currentAnimation, size, size, GraphicsUnit.Pixel);
-
             if (currentFrame < currentLimit - 1)
                 currentFrame++;
             else currentFrame = 0;
+
+            g.DrawImage(spriteSheet, new Rectangle(new Point(posX - flip*size/2, posY), new Size(flip*size, size)),32*currentFrame, 32*currentAnimation, size, size, GraphicsUnit.Pixel);
         }
 
         public void SetAnimationConfiguration(int currentAnimation)
         {
             this.currentAnimation = currentAnimation;
-
+            
             switch (currentAnimation)
             {
                 case 0:

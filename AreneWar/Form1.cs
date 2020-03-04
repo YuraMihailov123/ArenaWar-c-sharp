@@ -1,4 +1,5 @@
-﻿using AreneWar.Entites;
+﻿using AreneWar.Controllers;
+using AreneWar.Entites;
 using AreneWar.Models;
 using System;
 using System.Collections.Generic;
@@ -13,13 +14,12 @@ using System.Windows.Forms;
 
 namespace AreneWar
 {
-    
     public partial class Form1 : Form
     {
         public Image dwarfSheet;
         public Image gladiatorSheet;
         public Entity player;
-
+        
         public Form1()
         {
             InitializeComponent();
@@ -79,6 +79,11 @@ namespace AreneWar
 
         public void Init()
         {
+            MapController.Init();
+
+            this.Width = MapController.GetWidth();
+            this.Height = MapController.GetHeight();
+
             dwarfSheet = new Bitmap(Path.Combine(new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.Parent.FullName.ToString(),"Sprites\\Dwarf.png"));
 
             player = new Entity(100, 100, Hero.idleFrames, Hero.runFrames, Hero.attackFrames, Hero.deathFrames, dwarfSheet);
@@ -97,7 +102,8 @@ namespace AreneWar
         {
             Graphics g = e.Graphics;
 
-            player.PlayAnimation(g);
+            MapController.DrawMap(g);
+            player.PlayAnimation(g);           
         }
     }
 }
