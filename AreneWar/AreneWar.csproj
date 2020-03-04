@@ -112,6 +112,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Sprites\Dwarf.png" />
+    <Content Include="Sprites\Forest.png" />
     <Content Include="Sprites\Gladiator.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
