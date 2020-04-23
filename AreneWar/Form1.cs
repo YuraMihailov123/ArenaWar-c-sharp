@@ -35,10 +35,31 @@ namespace AreneWar
 
         public void OnKeyUp(object sender ,KeyEventArgs e)
         {
-            player.dirX = 0;
-            player.dirY = 0;
-            player.isMoving = false;
-            player.SetAnimationConfiguration(0);
+            switch (e.KeyCode)
+            {
+                case Keys.W:
+                    player.dirY = 0;
+                    break;
+                case Keys.S:
+                    player.dirY = 0;
+                    break;
+                case Keys.A:
+                    player.dirX = 0;
+                    break;
+                case Keys.D:
+                    player.dirX = 0;
+                    break;
+            }
+
+            if (player.dirX == 0 && player.dirY == 0)
+            {
+                player.isMoving = false;
+                player.SetAnimationConfiguration(0);
+            }
+            //player.dirX = 0;
+            //player.dirY = 0;
+            //player.isMoving = false;
+            //player.SetAnimationConfiguration(0);
         }
 
         public void OnPress(object sender, KeyEventArgs e)
@@ -86,12 +107,13 @@ namespace AreneWar
 
             dwarfSheet = new Bitmap(Path.Combine(new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.Parent.FullName.ToString(),"Sprites\\Dwarf.png"));
 
-            player = new Entity(100, 100, Hero.idleFrames, Hero.runFrames, Hero.attackFrames, Hero.deathFrames, dwarfSheet);
+            player = new Entity(310, 310, Hero.idleFrames, Hero.runFrames, Hero.attackFrames, Hero.deathFrames, dwarfSheet);
             timer1.Start();
         }
 
         public void Update(object sender, EventArgs e)
         {
+            PhysicsController.IsCollide(player);
             if (player.isMoving)
                 player.Move();
 

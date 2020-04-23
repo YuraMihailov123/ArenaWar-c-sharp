@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using AreneWar.Controllers;
+using System.Drawing;
 
 namespace AreneWar.Entites
 {
@@ -53,7 +54,7 @@ namespace AreneWar.Entites
             if (currentFrame < currentLimit - 1)
                 currentFrame++;
             else currentFrame = 0;
-
+            
             g.DrawImage(spriteSheet, new Rectangle(new Point(posX - flip*size/2, posY), new Size(flip*size, size)),32*currentFrame, 32*currentAnimation, size, size, GraphicsUnit.Pixel);
         }
 
