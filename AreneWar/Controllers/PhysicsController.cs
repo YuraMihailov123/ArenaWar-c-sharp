@@ -11,33 +11,38 @@ namespace AreneWar.Controllers
 {
     public static class PhysicsController
     {
-        public static void IsCollide(Entity entity)
+        public static bool IsCollide(Entity entity, Point dir)
         {
-            for (int j = entity.posX/MapController.cellSize; j < (entity.posX+MapController.cellSize)/MapController.cellSize; j++)
+            for(int i = 0; i < MapController.mapObjects.Count; i++)
             {
-                for (int i = entity.posY / MapController.cellSize; i < (entity.posY + MapController.cellSize) / MapController.cellSize; i++)
+                var currObject = MapController.mapObjects[i];
+                PointF delta = new PointF();
+                delta.X = (entity.posX + entity.size / 2) - (currObject.position.X + currObject.size.Width / 2);
+                delta.Y = (entity.posY + entity.size / 2) - (currObject.position.Y + currObject.size.Height / 2);
+                if (Math.Abs(delta.X) <= entity.size / 2 + currObject.size.Width/2)
                 {
-                    if (MapController.map[i, j] != 0)
+                    if (Math.Abs(delta.Y) <= entity.size / 2 + currObject.size.Height/2)
                     {
-                        if (entity.dirY > 0)
+                        if (delta.X < 0 && dir.X==1 && currObject.position.Y > entity.posY && currObject.position.Y + currObject.size.Height < entity.posY + entity.size)
                         {
-                            entity.posY-=10;
+                            return true;
                         }
-                        if (entity.dirY < 0)
+                        if (delta.X > 0 && dir.X == -1 && currObject.position.Y > entity.posY && currObject.position.Y + currObject.size.Height < entity.posY+entity.size)
                         {
-                            entity.posY += 10;
+                            return true;
                         }
-                        if (entity.dirX > 0)
+                        if (delta.Y < 0 && dir.Y == 1 && currObject.position.X>entity.posX && currObject.position.X+currObject.size.Width<entity.posX+entity.size)
                         {
-                            entity.posX -= 10;
+                            return true;
                         }
-                        if (entity.dirX < 0)
+                        if (delta.Y > 0 && dir.Y == -1 && currObject.position.X > entity.posX && currObject.position.X + currObject.size.Width < entity.posX+entity.size)
                         {
-                            entity.posX += 10;
+                            return true;
                         }
                     }
                 }
             }
+            return false;
         }
     }
 }

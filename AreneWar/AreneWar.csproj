@@ -64,6 +64,7 @@
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\PhysicsController.cs" />
     <Compile Include="Entites\Entity.cs" />
+    <Compile Include="Entites\MapEntity.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

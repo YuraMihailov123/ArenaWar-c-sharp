@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AreneWar.Entites;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -15,31 +16,33 @@ namespace AreneWar.Controllers
         public static int cellSize = 31;
         public static int[,] map = new int[mapHeight, mapWidth];
         public static Image spriteSheet;
+        public static List<MapEntity> mapObjects;
 
         public static void Init()
         {
             map = GetMap();
             spriteSheet = new Bitmap(Path.Combine(new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.Parent.FullName.ToString(), "Sprites\\Forest.png"));
+            mapObjects = new List<MapEntity>();
         }
         public static int[,] GetMap()
         {
             return new int[,]{
                 { 1,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,2},
                 { 5,10,-1,-1,0,0,0,0,0,0,0,0,0,0,0,0,10,-1,-1,7},
-                { 5,-1,-1,-1,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,-1,7},
+                { 5,-1,-1,-1,0,0,0,0,0,0,12,0,0,0,0,0,-1,-1,-1,7},
                 { 5,10,-1,-1,0,0,0,0,0,0,0,0,0,0,0,0,10,-1,-1,7},
-                { 5,-1,-1,-1,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,-1,7},
+                { 5,-1,-1,-1,0,0,12,0,0,0,0,0,0,0,0,0,-1,-1,-1,7},
                 { 5,10,-1,-1,0,0,0,0,0,0,0,0,0,0,0,0,10,-1,-1,7},
-                { 5,-1,-1,-1,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,-1,7},
+                { 5,-1,-1,-1,0,0,0,0,11,0,0,0,0,12,0,0,-1,-1,-1,7},
                 { 5,10,-1,-1,0,0,0,0,0,0,0,0,0,0,0,0,10,-1,-1,7},
-                { 5,-1,-1,-1,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,-1,7},
+                { 5,-1,-1,-1,0,0,0,0,12,0,0,0,0,0,0,0,-1,-1,-1,7},
                 { 5,10,-1,-1,0,0,0,0,0,0,0,0,0,0,0,0,10,-1,-1,7},
+                { 5,-1,-1,-1,0,0,0,0,0,0,0,0,0,12,0,0,-1,-1,-1,7},
+                { 5,10,-1,-1,0,0,12,0,0,0,0,0,0,0,0,0,10,-1,-1,7},
                 { 5,-1,-1,-1,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,-1,7},
-                { 5,10,-1,-1,0,0,0,0,0,0,0,0,0,0,0,0,10,-1,-1,7},
+                { 5,10,-1,-1,0,0,0,0,0,0,0,12,0,0,0,0,10,-1,-1,7},
                 { 5,-1,-1,-1,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,-1,7},
-                { 5,10,-1,-1,0,0,0,0,0,0,0,0,0,0,0,0,10,-1,-1,7},
-                { 5,-1,-1,-1,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,-1,7},
-                { 5,10,-1,-1,0,0,0,0,0,0,0,0,0,0,0,0,10,-1,-1,7},
+                { 5,10,-1,-1,0,0,0,12,0,0,0,0,0,0,0,0,10,-1,-1,7},
                 { 5,-1,-1,-1,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,-1,7},
                 { 5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
                 { 5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
@@ -56,9 +59,20 @@ namespace AreneWar.Controllers
                     if (map[i, j] == 10)
                     {
                         g.DrawImage(spriteSheet, new Rectangle(new Point(j * cellSize, i * cellSize), new Size(cellSize*3, cellSize*3)), 202, 298, 107, 114, GraphicsUnit.Pixel);
-                    }if (map[i, j] == 11)
+                        MapEntity mapEntity = new MapEntity(new Point(j * cellSize, i * cellSize), new Size(cellSize*3, cellSize*3));
+                        mapObjects.Add(mapEntity);
+                    }
+                    if (map[i, j] == 11)
                     {
-                        g.DrawImage(spriteSheet, new Rectangle(new Point(j * cellSize, i * cellSize), new Size(cellSize,cellSize)), 581, 114, 19, 11, GraphicsUnit.Pixel);
+                        g.DrawImage(spriteSheet, new Rectangle(new Point(j * cellSize, i * cellSize), new Size(20,12)), 581, 114, 19, 11, GraphicsUnit.Pixel);
+                        MapEntity mapEntity = new MapEntity(new Point(j * cellSize, i * cellSize), new Size(20, 12));
+                        mapObjects.Add(mapEntity);
+                    }
+                    if (map[i, j] == 12)
+                    {
+                        g.DrawImage(spriteSheet, new Rectangle(new Point(j * cellSize, i * cellSize), new Size(20, 18)), 453, 225, 18, 22, GraphicsUnit.Pixel);
+                        MapEntity mapEntity = new MapEntity(new Point(j * cellSize, i * cellSize), new Size(20, 18));
+                        mapObjects.Add(mapEntity);
                     }
                 }
             }
@@ -74,6 +88,7 @@ namespace AreneWar.Controllers
                     if (map[i, j] == 1)
                     {
                         g.DrawImage(spriteSheet, new Rectangle(new Point(j * cellSize, i * cellSize), new Size(cellSize, cellSize)), 96, 0, 20, 20, GraphicsUnit.Pixel);
+                        
                     }else
                     if (map[i, j] == 2)
                     {
@@ -115,7 +130,8 @@ namespace AreneWar.Controllers
                     }
                 }
             }
-            SeedMap(g);
+
+            MapController.SeedMap(g);
         }
 
         public static int GetWidth()

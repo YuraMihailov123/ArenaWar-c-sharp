@@ -54,7 +54,9 @@ namespace AreneWar
             if (player.dirX == 0 && player.dirY == 0)
             {
                 player.isMoving = false;
+                if(player.flip == 1)
                 player.SetAnimationConfiguration(0);
+                else player.SetAnimationConfiguration(5);
             }
             //player.dirX = 0;
             //player.dirY = 0;
@@ -69,30 +71,36 @@ namespace AreneWar
                 case Keys.W:
                     player.dirY = -1;
                     player.isMoving = true;
-                    player.SetAnimationConfiguration(1);
+                    if (player.flip == 1)
+                        player.SetAnimationConfiguration(1);
+                    else player.SetAnimationConfiguration(6);
                     break;
                 case Keys.S:
                     player.dirY = 1;
                     player.isMoving = true;
-                    player.SetAnimationConfiguration(1);
+                    if (player.flip == 1)
+                        player.SetAnimationConfiguration(1);
+                    else player.SetAnimationConfiguration(6);
                     break;
                 case Keys.A:
                     player.dirX = -1;
                     player.isMoving = true;
+                    player.SetAnimationConfiguration(6);
                     player.flip = -1;
-                    player.SetAnimationConfiguration(1);
                     break;
                 case Keys.D:
                     player.dirX = 1;
                     player.isMoving = true;
-                    player.flip = 1;
                     player.SetAnimationConfiguration(1);
+                    player.flip = 1;
                     break;
                 case Keys.Space:
                     player.dirX = 0;
                     player.dirY = 0;
                     player.isMoving = false;
+                    if(player.flip == 1)
                     player.SetAnimationConfiguration(2);
+                    else player.SetAnimationConfiguration(7);
                     break;
             }
             
@@ -113,9 +121,12 @@ namespace AreneWar
 
         public void Update(object sender, EventArgs e)
         {
-            PhysicsController.IsCollide(player);
-            if (player.isMoving)
-                player.Move();
+            //PhysicsController.IsCollide(player);
+            if (!PhysicsController.IsCollide(player, new Point(player.dirX, player.dirY)))
+            {
+                if (player.isMoving)
+                    player.Move();
+            }
 
             Invalidate();
         }
@@ -125,7 +136,7 @@ namespace AreneWar
             Graphics g = e.Graphics;
 
             MapController.DrawMap(g);
-            player.PlayAnimation(g);           
+            player.PlayAnimation(g);
         }
     }
 }

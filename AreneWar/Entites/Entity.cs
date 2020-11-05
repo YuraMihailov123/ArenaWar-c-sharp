@@ -55,7 +55,7 @@ namespace AreneWar.Entites
                 currentFrame++;
             else currentFrame = 0;
             
-            g.DrawImage(spriteSheet, new Rectangle(new Point(posX - flip*size/2, posY), new Size(flip*size, size)),32*currentFrame, 32*currentAnimation, size, size, GraphicsUnit.Pixel);
+            g.DrawImage(spriteSheet, new Rectangle(new Point(posX , posY), new Size(size, size)),32f*currentFrame, 32*currentAnimation, size, size, GraphicsUnit.Pixel);
         }
 
         public void SetAnimationConfiguration(int currentAnimation)
@@ -75,6 +75,15 @@ namespace AreneWar.Entites
                     break;
                 case 4:
                     currentLimit = deathFrames;
+                    break;
+                case 5:
+                    currentLimit = idleFrames;
+                    break;
+                case 6:
+                    currentLimit = runFrames;
+                    break;
+                case 7:
+                    currentLimit = attackFrames;
                     break;
             }
         }
