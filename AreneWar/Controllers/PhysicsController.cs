@@ -13,6 +13,9 @@ namespace AreneWar.Controllers
     {
         public static bool IsCollide(Entity entity, Point dir)
         {
+            if (entity.posX + dir.X <= 0 || entity.posX + dir.X >= MapController.cellSize * (MapController.mapWidth-1) || entity.posY + dir.Y <= 0 || entity.posY + dir.Y >= MapController.cellSize * (MapController.mapHeight-1))
+                return true;
+
             for(int i = 0; i < MapController.mapObjects.Count; i++)
             {
                 var currObject = MapController.mapObjects[i];
@@ -23,19 +26,19 @@ namespace AreneWar.Controllers
                 {
                     if (Math.Abs(delta.Y) <= entity.size / 2 + currObject.size.Height/2)
                     {
-                        if (delta.X < 0 && dir.X==1 && currObject.position.Y > entity.posY && currObject.position.Y + currObject.size.Height < entity.posY + entity.size)
+                        if (delta.X < 0 && dir.X==1 && entity.posY + entity.size / 2 > currObject.position.Y && entity.posY + entity.size / 2 < currObject.position.Y + currObject.size.Height)
                         {
                             return true;
                         }
-                        if (delta.X > 0 && dir.X == -1 && currObject.position.Y > entity.posY && currObject.position.Y + currObject.size.Height < entity.posY+entity.size)
+                        if (delta.X > 0 && dir.X == -1 && entity.posY + entity.size / 2 > currObject.position.Y && entity.posY + entity.size / 2 < currObject.position.Y + currObject.size.Height)
                         {
                             return true;
                         }
-                        if (delta.Y < 0 && dir.Y == 1 && currObject.position.X>entity.posX && currObject.position.X+currObject.size.Width<entity.posX+entity.size)
+                        if (delta.Y < 0 && dir.Y == 1 && entity.posX + entity.size / 2 > currObject.position.X && entity.posX + entity.size / 2 < currObject.position.X+currObject.size.Width)
                         {
                             return true;
                         }
-                        if (delta.Y > 0 && dir.Y == -1 && currObject.position.X > entity.posX && currObject.position.X + currObject.size.Width < entity.posX+entity.size)
+                        if (delta.Y > 0 && dir.Y == -1 && entity.posX + entity.size / 2 > currObject.position.X && entity.posX + entity.size / 2 < currObject.position.X + currObject.size.Width)
                         {
                             return true;
                         }
